@@ -25,6 +25,12 @@ func main() {
 		}
 
 		switch cmd {
+		case 1:
+			handleCreateFile()
+		case 2:
+			handleEncryptFile()
+		case 3:
+			handleDecryptFile()
 		case 4:
 			fmt.Println("Exiting...")
 			return
@@ -32,6 +38,21 @@ func main() {
 			fmt.Println("Invalid option, please try again.")
 		}
 	}
+}
+
+func handleCreateFile() {
+	fmt.Println("Creating a file...")
+	// Реализация добавится позже
+}
+
+func handleEncryptFile() {
+	fmt.Println("Encrypting a file...")
+	// Реализация добавится позже
+}
+
+func handleDecryptFile() {
+	fmt.Println("Decrypting a file...")
+	// Реализация добавится позже
 }
 
 func printMenu(actions map[int]string) {
