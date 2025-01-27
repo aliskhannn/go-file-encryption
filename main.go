@@ -88,8 +88,15 @@ func handleEncryptFile() {
 }
 
 func handleDecryptFile() {
-	fmt.Println("Decrypting a file...")
-	// Реализация добавится позже
+	fileName := getFileNameFromUser("\nEnter the file name to decrypt:")
+	if fileName == "" {
+		return
+	}
+
+	err := decryptFile(fileName)
+	if err != nil {
+		fmt.Printf("No such file: %s", fileName)
+	}
 }
 
 func getFileNameFromUser(prompt string) string {
@@ -137,6 +144,25 @@ func encryptFile(fileName string, data []byte) error {
 	}
 
 	fmt.Printf("\nFile %s successfully encrypted. Encrypted file: %s\n", fileName, encryptedFileName)
+
+	return nil
+}
+
+func decryptFile(fileName string) error {
+	data, err := os.ReadFile(fileName)
+	if err != nil {
+		return err
+	}
+
+	decryptedData := rot13(data)
+	decryptedFileName := strings.TrimSuffix(fileName, ".enc.txt") + ".dec.txt"
+
+	err = os.WriteFile(decryptedFileName, decryptedData, 0644)
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("\nFile %s successfully decrypted. Decrypted file: %s\n", fileName, decryptedFileName)
 
 	return nil
 }
