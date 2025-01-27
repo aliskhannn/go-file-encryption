@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -69,8 +70,21 @@ func handleCreateFile() {
 }
 
 func handleEncryptFile() {
-	fmt.Println("Encrypting a file...")
-	// Реализация добавится позже
+	fileName := getFileNameFromUser("\nEnter the file name to encrypt:")
+	if fileName == "" {
+		return
+	}
+
+	data, err := os.ReadFile(fileName)
+	if err != nil {
+		fmt.Printf("No such file: %s", fileName)
+		return
+	}
+
+	err = encryptFile(fileName, data)
+	if err != nil {
+		fmt.Println("Error encrypting file:", err)
+	}
 }
 
 func handleDecryptFile() {
@@ -111,4 +125,35 @@ func createFile(fileName, text string) error {
 	}
 
 	return nil
+}
+
+func encryptFile(fileName string, data []byte) error {
+	encryptedData := rot13(data)
+	encryptedFileName := strings.TrimSuffix(fileName, filepath.Ext(fileName)) + ".enc.txt"
+
+	err := os.WriteFile(encryptedFileName, encryptedData, 0644)
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("\nFile %s successfully encrypted. Encrypted file: %s\n", fileName, encryptedFileName)
+
+	return nil
+}
+
+func rot13(data []byte) []byte {
+	var result []byte
+
+	for _, char := range data {
+		switch {
+		case char >= 'A' && char <= 'Z':
+			result = append(result, 'A'+((char-'A'+13)%26))
+		case char >= 'a' && char <= 'z':
+			result = append(result, 'a'+((char-'a'+13)%26))
+		default:
+			result = append(result, char)
+		}
+	}
+
+	return result
 }
