@@ -15,7 +15,7 @@
 ## **Как использовать**
 1. Скачайте или склонируйте этот репозиторий:
    ```bash
-   git clone <URL репозитория>
+   git clone https://github.com/aliskhannn/rot13-file-encryption.git
    cd rot13-file-encryption
    ```
 2. Скомпилируйте и запустите программу:
